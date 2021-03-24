@@ -1,21 +1,21 @@
 import React from 'react';
-import { useState } from 'react';
+// import { useState } from 'react';
 import { Grid } from '@chakra-ui/layout';
 import { Key } from './Key';
 
 export function Keypad() {
-  const CALCULATOR_STATES = {
-    operatorEntered: 'operatorEntered',
-    numberEntered: 'numberEntered',
-    initialized: 'initialized',
-    calculated: 'calculated',
-  };
+  // const CALCULATOR_STATES = {
+  //   operatorEntered: 'operatorEntered',
+  //   numberEntered: 'numberEntered',
+  //   initialized: 'initialized',
+  //   calculated: 'calculated',
+  // };
 
-  const [currentState, setCurrentState] = useState(
-    CALCULATOR_STATES.initialized
-  );
-  const [history, setHistory] = useState([]);
-  const [result, setResult] = useState('0');
+  // const [currentState, setCurrentState] = useState(
+  //   CALCULATOR_STATES.initialized
+  // );
+  // const [history, setHistory] = useState([]);
+  // const [result, setResult] = useState('0');
 
   const handleAllClear = () => {
     console.log('All Clear clicked');
