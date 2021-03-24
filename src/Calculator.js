@@ -34,6 +34,9 @@ export function Calculator() {
 
   const handleAllClear = () => {
     console.log('All Clear clicked');
+    setCurrentState(CALCULATOR_STATES.initialized);
+    setHistory([]);
+    setResult('0');
   };
 
   const handleClear = () => {
@@ -99,7 +102,7 @@ export function Calculator() {
     <Flex align='center' h='100vh' px='2' mx='auto'>
       <Box bg='white' mx='auto' w='400px' rounded='sm' shadow='lg'>
         <Header />
-        <Display />
+        <Display history='&nbsp;' result={result} />
         <Keypad onClick={(value) => handleClick(value)} />
       </Box>
     </Flex>
