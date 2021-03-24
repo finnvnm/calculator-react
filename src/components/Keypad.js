@@ -1,54 +1,8 @@
 import React from 'react';
-// import { useState } from 'react';
 import { Grid } from '@chakra-ui/layout';
 import { Key } from './Key';
 
-export function Keypad() {
-  // const CALCULATOR_STATES = {
-  //   operatorEntered: 'operatorEntered',
-  //   numberEntered: 'numberEntered',
-  //   initialized: 'initialized',
-  //   calculated: 'calculated',
-  // };
-
-  // const [currentState, setCurrentState] = useState(
-  //   CALCULATOR_STATES.initialized
-  // );
-  // const [history, setHistory] = useState([]);
-  // const [result, setResult] = useState('0');
-
-  const handleAllClear = () => {
-    console.log('All Clear clicked');
-  };
-
-  const handleClear = () => {
-    console.log('Clear clicked');
-  };
-
-  const handlePlusMinus = () => {
-    console.log('Plus/Minus clicked');
-  };
-
-  const handlePercent = () => {
-    console.log('Percent clicked');
-  };
-
-  const handleDecimal = () => {
-    console.log('Decimal clicked');
-  };
-
-  const handleEqual = () => {
-    console.log('Equal clicked');
-  };
-
-  const handleOperator = (operator) => {
-    console.log(`${operator} clicked`);
-  };
-
-  const handleNumber = (number) => {
-    console.log(`${number} clicked`);
-  };
-
+export function Keypad({ value, onClick }) {
   return (
     <Grid
       templateColumns='repeat(4, minmax(0, 1fr))'
@@ -61,66 +15,66 @@ export function Keypad() {
         value={'AC'}
         color='white'
         bg='gray.300'
-        onClick={() => handleAllClear()}
+        onClick={() => onClick('AC')}
       />
       <Key
         value={'C'}
         color='white'
         bg='gray.300'
-        onClick={() => handleClear()}
+        onClick={() => onClick('C')}
       />
       <Key
         value={'+/-'}
         color='white'
         bg='gray.300'
-        onClick={() => handlePlusMinus()}
+        onClick={() => onClick('+/-')}
       />
       <Key
         value={'%'}
         color='white'
         bg='gray.300'
-        onClick={() => handlePercent()}
+        onClick={() => onClick('%')}
       />
-      <Key value={'7'} onClick={(number) => handleNumber(number)} />
-      <Key value={'8'} onClick={(number) => handleNumber(number)} />
-      <Key value={'9'} onClick={(number) => handleNumber(number)} />
+      <Key value={'7'} onClick={() => onClick('7')} />
+      <Key value={'8'} onClick={() => onClick('8')} />
+      <Key value={'9'} onClick={() => onClick('9')} />
       <Key
         value={'/'}
         color='white'
         bg='blue.300'
-        onClick={(operator) => handleOperator(operator)}
+        onClick={() => onClick('/')}
       />
-      <Key value={'4'} onClick={(number) => handleNumber(number)} />
-      <Key value={'5'} onClick={(number) => handleNumber(number)} />
-      <Key value={'6'} onClick={(number) => handleNumber(number)} />
+      <Key value={'4'} onClick={() => onClick('4')} />
+      <Key value={'5'} onClick={() => onClick('5')} />
+      <Key value={'6'} onClick={() => onClick('6')} />
       <Key
         value={'*'}
         color='white'
         bg='blue.300'
-        onClick={(operator) => handleOperator(operator)}
+        onClick={() => onClick('*')}
       />
-      <Key value={'1'} onClick={(number) => handleNumber(number)} />
-      <Key value={'2'} onClick={(number) => handleNumber(number)} />
-      <Key value={'3'} onClick={(number) => handleNumber(number)} />
+      <Key value={'1'} onClick={() => onClick('1')} />
+      <Key value={'2'} onClick={() => onClick('2')} />
+      <Key value={'3'} onClick={() => onClick('3')} />
       <Key
         value={'-'}
         color='white'
         bg='blue.300'
-        onClick={(operator) => handleOperator(operator)}
+        onClick={() => onClick('-')}
       />
-      <Key value={'0'} onClick={(number) => handleNumber(number)} />
-      <Key value={'.'} onClick={() => handleDecimal()} />
+      <Key value={'0'} onClick={() => onClick('0')} />
+      <Key value={'.'} onClick={() => onClick('.')} />
       <Key
         value={'='}
         color='white'
         bg='blue.500'
-        onClick={() => handleEqual()}
+        onClick={() => onClick('=')}
       />
       <Key
         value={'+'}
         color='white'
         bg='blue.300'
-        onClick={(operator) => handleOperator(operator)}
+        onClick={() => onClick('+')}
       />
     </Grid>
   );

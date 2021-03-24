@@ -1,7 +1,7 @@
 import { Button } from '@chakra-ui/button';
 import React from 'react';
 
-export function Key({ value, color = 'gray.600', bg = 'white', onClick }) {
+export function Key({ color = 'gray.600', bg = 'white', value, onClick }) {
   return (
     <Button
       fontSize='3xl'
