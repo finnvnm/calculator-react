@@ -1,65 +1,98 @@
-// import { useState } from 'react';
+import { useState } from 'react';
 import { Box, Flex } from '@chakra-ui/layout';
 import { Header, Display, Keypad } from './components';
 
 export function Calculator() {
-  // const FUNCTION_KEYS = {
-  //   allClear: 'AC',
-  //   clear: 'C',
-  //   plusMinus: '+/-',
-  //   percent: '%'
-  // }
+  const FUNCTION_KEYS = {
+    allClear: 'AC',
+    clear: 'C',
+    plusMinus: '+/-',
+    percent: '%',
+    decimal: '.',
+    equal: '=',
+  };
 
-  // const CALCULATOR_STATES = {
-  //   operatorEntered: 'operatorEntered',
-  //   numberEntered: 'numberEntered',
-  //   initialized: 'initialized',
-  //   calculated: 'calculated',
-  // };
+  const OPERATOR_KEYS = {
+    plus: '+',
+    minus: '-',
+    multiply: '*',
+    divide: '/',
+  };
 
-  // const [currentState, setCurrentState] = useState(
-  //   CALCULATOR_STATES.initialized
-  // );
-  // const [history, setHistory] = useState([]);
-  // const [result, setResult] = useState('0');
+  const CALCULATOR_STATES = {
+    operatorEntered: 'operatorEntered',
+    numberEntered: 'numberEntered',
+    initialized: 'initialized',
+    calculated: 'calculated',
+  };
 
-  // const handleAllClear = () => {
-  //   console.log('All Clear clicked');
-  // };
+  const [currentState, setCurrentState] = useState(
+    CALCULATOR_STATES.initialized
+  );
+  const [history, setHistory] = useState([]);
+  const [result, setResult] = useState('0');
 
-  // const handleClear = () => {
-  //   console.log('Clear clicked');
-  // };
+  const handleAllClear = () => {
+    console.log('All Clear clicked');
+  };
 
-  // const handlePlusMinus = () => {
-  //   console.log('Plus/Minus clicked');
-  // };
+  const handleClear = () => {
+    console.log('Clear clicked');
+  };
 
-  // const handlePercent = () => {
-  //   console.log('Percent clicked');
-  // };
+  const handlePlusMinus = () => {
+    console.log('Plus/Minus clicked');
+  };
 
-  // const handleDecimal = () => {
-  //   console.log('Decimal clicked');
-  // };
+  const handlePercent = () => {
+    console.log('Percent clicked');
+  };
 
-  // const handleEqual = () => {
-  //   console.log('Equal clicked');
-  // };
+  const handleDecimal = () => {
+    console.log('Decimal clicked');
+  };
 
-  // const handleOperator = (operator) => {
-  //   console.log(`${operator} clicked`);
-  // };
+  const handleEqual = () => {
+    console.log('Equal clicked');
+  };
 
-  // const handleNumber = (number) => {
-  //   console.log(`${number} clicked`);
-  // };
+  const handleOperator = (operator) => {
+    console.log(`${operator} clicked`);
+  };
+
+  const handleNumber = (number) => {
+    console.log(`${number} clicked`);
+  };
 
   const handleClick = (value) => {
-    console.log(`${value} clicked`);
-    // if (value === 'AC') {
-    //   handleAllClear();
-    // }
+    switch (value) {
+      case FUNCTION_KEYS.allClear:
+        handleAllClear();
+        break;
+      case FUNCTION_KEYS.clear:
+        handleClear();
+        break;
+      case FUNCTION_KEYS.plusMinus:
+        handlePlusMinus();
+        break;
+      case FUNCTION_KEYS.percent:
+        handlePercent();
+        break;
+      case FUNCTION_KEYS.decimal:
+        handleDecimal();
+        break;
+      case FUNCTION_KEYS.equal:
+        handleEqual();
+        break;
+      case OPERATOR_KEYS.plus:
+      case OPERATOR_KEYS.minus:
+      case OPERATOR_KEYS.multiply:
+      case OPERATOR_KEYS.divide:
+        handleOperator(value);
+        break;
+      default:
+        handleNumber(value);
+    }
   };
 
   return (
