@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import React from 'react';
+import useState from 'react-usestateref';
 import { Box, Flex } from '@chakra-ui/layout';
 import { Header, Display, Keypad } from './components';
 
@@ -26,11 +27,11 @@ export function Calculator() {
     calculated: 'calculated',
   };
 
-  const [currentState, setCurrentState] = useState(
+  const [currentState, setCurrentState, currentStateRef] = useState(
     CALCULATOR_STATES.initialized
   );
-  const [history, setHistory] = useState([]);
-  const [result, setResult] = useState('0');
+  const [history, setHistory, historyRef] = useState([]);
+  const [result, setResult, resultRef] = useState('0');
 
   const handleAllClear = () => {
     console.log('All Clear clicked');
@@ -40,7 +41,9 @@ export function Calculator() {
   };
 
   const handleClear = () => {
-    console.log('Clear clicked');
+    console.log('Clear clicked', history.length);
+
+    if (history.length === 0) return;
   };
 
   const handlePlusMinus = () => {
@@ -64,7 +67,37 @@ export function Calculator() {
   };
 
   const handleNumber = (number) => {
-    console.log(`${number} clicked`);
+    console.log(`Current state: ${currentState}`);
+    console.log(`History: ${history}`);
+    console.log(`Number: ${number}`);
+
+    switch (currentState) {
+      case CALCULATOR_STATES.initialized:
+        setResult(number);
+        console.log(`Result: ${resultRef.current}`);
+        break;
+      case CALCULATOR_STATES.calculated:
+        setHistory([]);
+        setResult(number);
+        break;
+      case CALCULATOR_STATES.operatorEntered:
+        setHistory(...history, number);
+        break;
+      case CALCULATOR_STATES.numberEntered:
+        setResult(`${result}${number}`);
+        break;
+      default:
+        console.log(currentState);
+    }
+
+    setCurrentState(
+      resultRef.current === '0'
+        ? CALCULATOR_STATES.initialized
+        : CALCULATOR_STATES.numberEntered
+    );
+
+    console.log(`New state: ${currentStateRef.current}`);
+    console.log('-----------');
   };
 
   const handleClick = (value) => {
@@ -102,7 +135,7 @@ export function Calculator() {
     <Flex align='center' h='100vh' px='2' mx='auto'>
       <Box bg='white' mx='auto' w='400px' rounded='sm' shadow='lg'>
         <Header />
-        <Display history='&nbsp;' result={result} />
+        <Display history='&nbsp;' result={resultRef.current} />
         <Keypad onClick={(value) => handleClick(value)} />
       </Box>
     </Flex>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid } from '@chakra-ui/layout';
 import { Key } from './Key';
 
-export function Keypad({ value, onClick }) {
+export function Keypad({ onClick }) {
   return (
     <Grid
       templateColumns='repeat(4, minmax(0, 1fr))'
