@@ -118,6 +118,11 @@ export function Calculator() {
   const handleOperator = (operator) => {
     console.log(`${operator} clicked`);
 
+    if (resultRef.current[resultRef.current.length - 1] === '.') {
+      setResult(resultRef.current.slice(0, -1));
+    }
+    console.log(resultRef.current);
+
     switch (currentState) {
       case CALCULATOR_STATES.initialized:
       case CALCULATOR_STATES.numberEntered:
