@@ -125,6 +125,31 @@ export function Calculator() {
 
   const handleEqual = () => {
     console.log('Equal clicked');
+
+    if (currentStateRef.current === CALCULATOR_STATES.calculated) return;
+
+    if (!history) {
+      return alert('Nothing to calculate');
+    }
+
+    if (currentStateRef.current === CALCULATOR_STATES.operatorEntered) {
+      return alert('Incomplete operation');
+    }
+
+    if (
+      historyRef.current[historyRef.current.length - 1] === '/' &&
+      resultRef.current === '0'
+    ) {
+      return alert('Error: Division by zero');
+    }
+
+    setCurrentState(CALCULATOR_STATES.calculated);
+
+    setHistory([...history, result]);
+
+    console.log(historyRef.current.join(''));
+
+    setResult(String(eval(historyRef.current.join(''))));
   };
 
   const handleOperator = (operator) => {
