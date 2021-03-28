@@ -41,13 +41,37 @@ export function Calculator() {
   };
 
   const handleClear = () => {
-    console.log('Clear clicked', history.length);
+    //789+56*1000
+    console.log('Clear clicked');
 
-    if (history.length === 0) return;
+    const lastHistoryElement = history[history.length - 1];
+    console.log(`${lastHistoryElement}`);
+
+    const operators = Object.values(OPERATOR_KEYS);
+
+    setCurrentState(
+      lastHistoryElement
+        ? operators.includes(lastHistoryElement)
+          ? CALCULATOR_STATES.operatorEntered
+          : CALCULATOR_STATES.numberEntered
+        : CALCULATOR_STATES.initialized
+    );
+
+    setHistory(lastHistoryElement ? history.slice(0, -1) : []);
+
+    setResult(lastHistoryElement ? lastHistoryElement : '0');
   };
 
   const handlePlusMinus = () => {
     console.log('Plus/Minus clicked');
+
+    if (currentStateRef.current !== CALCULATOR_STATES.operatorEntered) {
+      const newResult = result.includes('-')
+        ? result.replace('-', '')
+        : `-${result}`;
+
+      setResult(newResult);
+    }
   };
 
   const handlePercent = () => {
@@ -56,6 +80,35 @@ export function Calculator() {
 
   const handleDecimal = () => {
     console.log('Decimal clicked');
+
+    const hasDecimal = resultRef.current.includes('.');
+
+    if (hasDecimal) {
+      return alert('Already has a decimal');
+    }
+
+    switch (currentState) {
+      case CALCULATOR_STATES.initialized:
+      case CALCULATOR_STATES.numberEntered:
+        setResult(`${result}.`);
+        break;
+      case CALCULATOR_STATES.calculated:
+        setHistory([]);
+        setResult('0.');
+        break;
+      case CALCULATOR_STATES.operatorEntered:
+        setHistory([...history, resultRef.current]);
+        setResult('0.');
+        break;
+      default:
+        console.log('Decimal clicked');
+    }
+
+    setCurrentState(
+      resultRef.current === '0'
+        ? CALCULATOR_STATES.initialized
+        : CALCULATOR_STATES.numberEntered
+    );
   };
 
   const handleEqual = () => {
@@ -64,24 +117,39 @@ export function Calculator() {
 
   const handleOperator = (operator) => {
     console.log(`${operator} clicked`);
+
+    switch (currentState) {
+      case CALCULATOR_STATES.initialized:
+      case CALCULATOR_STATES.numberEntered:
+        setHistory([...history, resultRef.current]);
+        break;
+      case CALCULATOR_STATES.calculated:
+        setHistory([resultRef.current]);
+        break;
+      case CALCULATOR_STATES.operatorEntered:
+        break;
+      default:
+        console.log(operator);
+    }
+
+    setResult(operator);
+    setCurrentState(CALCULATOR_STATES.operatorEntered);
   };
 
   const handleNumber = (number) => {
-    console.log(`Current state: ${currentState}`);
-    console.log(`History: ${history}`);
-    console.log(`Number: ${number}`);
+    console.log(`${number} clicked`);
 
     switch (currentState) {
       case CALCULATOR_STATES.initialized:
         setResult(number);
-        console.log(`Result: ${resultRef.current}`);
         break;
       case CALCULATOR_STATES.calculated:
         setHistory([]);
         setResult(number);
         break;
       case CALCULATOR_STATES.operatorEntered:
-        setHistory(...history, number);
+        setHistory([...history, resultRef.current]);
+        setResult(number);
         break;
       case CALCULATOR_STATES.numberEntered:
         setResult(`${result}${number}`);
@@ -95,12 +163,15 @@ export function Calculator() {
         ? CALCULATOR_STATES.initialized
         : CALCULATOR_STATES.numberEntered
     );
-
-    console.log(`New state: ${currentStateRef.current}`);
-    console.log('-----------');
   };
 
   const handleClick = (value) => {
+    console.log(`Before clicked`);
+    console.log(`State: ${currentState} ${currentStateRef.current}`);
+    console.log(`History: ${[history]} ${[historyRef.current]}`);
+    console.log(`Result: ${result} ${resultRef.current}`);
+    console.log('---');
+
     switch (value) {
       case FUNCTION_KEYS.allClear:
         handleAllClear();
@@ -129,13 +200,29 @@ export function Calculator() {
       default:
         handleNumber(value);
     }
+
+    console.log('---');
+    console.log(`After clicked`);
+    console.log(`State: ${currentState} ${currentStateRef.current}`);
+    console.log(`History: ${[history]} ${[historyRef.current]}`);
+    console.log(`Result: ${result} ${resultRef.current}`);
+    console.log('=====================================');
   };
 
   return (
     <Flex align='center' h='100vh' px='2' mx='auto'>
       <Box bg='white' mx='auto' w='400px' rounded='sm' shadow='lg'>
         <Header />
-        <Display history='&nbsp;' result={resultRef.current} />
+        <Display
+          history={history
+            .map((element) =>
+              element.includes('-') && element.length > 1
+                ? `(${element})`
+                : `${element}`
+            )
+            .join(' ')}
+          result={resultRef.current}
+        />
         <Keypad onClick={(value) => handleClick(value)} />
       </Box>
     </Flex>
