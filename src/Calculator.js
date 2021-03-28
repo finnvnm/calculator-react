@@ -76,6 +76,18 @@ export function Calculator() {
 
   const handlePercent = () => {
     console.log('Percent clicked');
+    if (
+      currentStateRef.current === CALCULATOR_STATES.initialized ||
+      currentStateRef.current === CALCULATOR_STATES.operatorEntered
+    ) {
+      return;
+    }
+
+    if (resultRef.current[resultRef.current.length - 1] === '%') {
+      return alert('Already entered %');
+    }
+
+    setResult(`${resultRef.current}%`);
   };
 
   const handleDecimal = () => {
